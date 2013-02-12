@@ -42,7 +42,7 @@ public class Escitala {
 			largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1; //Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios 
 			escitala = new String[largo][caras];
 
-			int pivote = 0; //Nos servir� de pivote para la frase 
+			int pivote = 0; //Nos servirá de pivote para la frase 
 
 			for (int columnas = 0; columnas < caras; columnas++) { //OJO esta vez la cantidad de columnas lo determinarán las caras 
 				for (int filas = 0; filas < largo; filas++) { //OJO esta vez las la cantidad de filas vendrá determinada por el largo. 

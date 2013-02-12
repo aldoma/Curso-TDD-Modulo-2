@@ -4,7 +4,7 @@
  * <h2>Enunciado del ejercicio:</h2>
  * <p>
  * El siguiente código Java ha sido tomado de una solución colgada en Solveet para resolver la
- * criptiografía Escitila (<a
+ * criptiografía Escitala (<a
  * href="http://www.solveet.com/exercises/Criptografia-La-Escitala-Espartana/147">página
  * original</a>).
  * <p>

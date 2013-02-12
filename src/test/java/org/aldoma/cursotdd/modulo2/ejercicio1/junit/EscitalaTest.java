@@ -124,8 +124,13 @@ public class EscitalaTest {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt(String)} sobre
 	 * un objeto sin inicializar.
+=======
+	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt()} sobre un
+	 * objeto sin inicializar.
+>>>>>>> refs/remotes/origin/master
 	 */
 	@Test
 	public final void testDecrypt_ConNUll() {

@@ -70,6 +70,40 @@ public class EscitalaTest {
 	}
 
 	/**
+	 * Test method for
+	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int, java.lang.String)} con
+	 * el número de caras igual a 0.
+	 */
+	@Test
+	public final void testEscitala_ConZeroCaras() {
+		final int numCaras = 0;
+		try {
+			new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
+			Assert.fail( "¿Cúal es la construcción geométrica para una escitala de 0 caras?" );
+		}
+		catch (final IllegalArgumentException ex) {
+			// Ok, este es el comportamiento esperado
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int, java.lang.String)} con
+	 * el número de caras negativo.
+	 */
+	@Test
+	public final void testEscitala_ConNumCarasNegativo() {
+		final int numCaras = -5;
+		try {
+			new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
+			Assert.fail( "Esta es una geometría muy avanzada para una Escitala" );
+		}
+		catch (final IllegalArgumentException ex) {
+			// Ok, este es el comportamiento esperado
+		}
+	}
+
+	/**
 	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt()}.
 	 */
 	@Test
@@ -83,7 +117,7 @@ public class EscitalaTest {
 	 */
 	@Test
 	public final void testEncrypt_ConNUll() {
-		final Escitala theSUP = new Escitala( 0, null );
+		final Escitala theSUP = new Escitala( 2, null );
 		Assert.assertNull( theSUP.encrypt() );
 	}
 
@@ -129,7 +163,7 @@ public class EscitalaTest {
 	 */
 	@Test
 	public final void testDecrypt_ConNUll() {
-		final Escitala theSUP = new Escitala( 0, null );
+		final Escitala theSUP = new Escitala( 2, null );
 		Assert.assertNull( theSUP.decrypt( EscitalaTest.ENCRYPT_CON_10 ) );
 	}
 

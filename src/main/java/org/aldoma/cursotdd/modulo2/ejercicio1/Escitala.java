@@ -21,6 +21,10 @@ public class Escitala {
 	 */
 	public Escitala(	final int numCaras,
 						final String theFrase ) {
+		if (1 >= numCaras) {
+			throw new IllegalArgumentException(
+					"El número de caras de una escitala ha de ser un entero positivo mayor que 1." ); //$NON-NLS-1$
+		}
 		caras = numCaras;
 		frase = theFrase;
 	}

@@ -7,7 +7,7 @@ package org.aldoma.cursotdd.modulo2.ejercicio1;
  */
 public class Escitala {
 	/** Número de caras de la escitala. */
-	private int caras;
+	private final int caras;
 	private String frase;
 
 	/**
@@ -139,18 +139,6 @@ public class Escitala {
 	 */
 	public int getCaras() {
 		return caras;
-	}
-
-	/**
-	 * Establece el número de caras de la escitala.
-	 * 
-	 * @param numCaras
-	 *        número de caras a establecer en la escitala.
-	 */
-	public void setCaras( final int numCaras ) {
-		if (numCaras > 0) {
-			caras = numCaras;
-		}
 	}
 
 	/**

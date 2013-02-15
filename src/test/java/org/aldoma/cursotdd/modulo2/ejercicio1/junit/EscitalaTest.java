@@ -106,12 +106,12 @@ public class EscitalaTest {
 	@Test
 	public final void testEncrypt_NoMultiplo() {
 		final int numCaras = 7;
-		theSUP10.setCaras( numCaras );
+		final Escitala theSUP = new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
 		Assert.assertFalse( EscitalaTest.ENCRYPT_CON_10.length() % numCaras == 0 );
-		final String str = theSUP10.encrypt();
+		final String str = theSUP.encrypt();
 
 		Assert.assertEquals( EscitalaTest.TEXTO_CLARO,
-				theSUP10.decrypt( str ).substring( 0, EscitalaTest.TEXTO_CLARO.length() ) );
+				theSUP.decrypt( str ).substring( 0, EscitalaTest.TEXTO_CLARO.length() ) );
 	}
 
 	/**
@@ -139,46 +139,6 @@ public class EscitalaTest {
 	@Test
 	public final void testGetCaras() {
 		Assert.assertEquals( 10, theSUP10.getCaras() );
-
-		theSUP10.setCaras( 5 );
-
-		Assert.assertEquals( 5, theSUP10.getCaras() );
-	}
-
-	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#setCaras(int)}.
-	 */
-	@Test
-	public final void testSetCaras() {
-		theSUP10.setCaras( 3 );
-
-		Assert.assertEquals( 3, theSUP10.getCaras() );
-	}
-
-	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#setCaras(int)} usando
-	 * cero como argumento.
-	 */
-	@Test
-	public final void testSetCaras_ConArgumentoCero() {
-		final int numCarasOld = theSUP10.getCaras();
-		theSUP10.setCaras( 0 );
-
-		// No es posible una escitala con 0 caras
-		Assert.assertEquals( numCarasOld, theSUP10.getCaras() );
-	}
-
-	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#setCaras(int)} usando
-	 * un número negativo como argumento.
-	 */
-	@Test
-	public final void testSetCaras_ConArgumentoNegativo() {
-		final int numCarasOld = theSUP10.getCaras();
-		theSUP10.setCaras( -5 );
-
-		// No es posible una escitala con un número negativo de caras
-		Assert.assertEquals( numCarasOld, theSUP10.getCaras() );
 	}
 
 	/**

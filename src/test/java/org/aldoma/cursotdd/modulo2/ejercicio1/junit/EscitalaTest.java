@@ -18,16 +18,16 @@ import org.junit.Test;
  */
 @SuppressWarnings( { "nls", "static-method" } )
 public class EscitalaTest {
-	// Cadena de ejemplo en texto claro
+	/** Cadena de ejemplo en texto claro */
 	private static final String TEXTO_CLARO = "En un lugar de la Mancha, de cuyo nombre no quiero acordarme";
 
-	// La anterior cadena encriptada con una escitala de 10 caras
+	/** La anterior cadena encriptada con una escitala de 10 caras */
 	private static final String ENCRYPT_CON_10 = "Ernu  n cyna dhoocuea  on ,nqr l oudladmiau ebergM rrmaaceoe";
 
-	// Una escitala de 10 caras...
+	/** Una escitala de 10 caras... */
 	private Escitala theSUP10;
 
-	// ...y su inversa (inicializada con la cadena encriptada.
+	/** ...y su inversa (inicializada con la cadena encriptada. */
 	private Escitala theSUP10Inv;
 
 	/**
@@ -124,13 +124,8 @@ public class EscitalaTest {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt(String)} sobre
 	 * un objeto sin inicializar.
-=======
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt()} sobre un
-	 * objeto sin inicializar.
->>>>>>> refs/remotes/origin/master
 	 */
 	@Test
 	public final void testDecrypt_ConNUll() {

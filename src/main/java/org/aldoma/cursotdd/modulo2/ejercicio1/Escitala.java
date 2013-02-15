@@ -6,9 +6,9 @@ package org.aldoma.cursotdd.modulo2.ejercicio1;
  * @author Alberto Dominguez Matamoros
  */
 public class Escitala {
+	/** Número de caras de la escitala. */
 	private int caras;
 	private String frase;
-	private String[][] escitala;
 
 	/**
 	 * Constructor con inicialización explícita del número de caras de la Escitala y la frase a
@@ -33,7 +33,7 @@ public class Escitala {
 	public String encrypt() {
 		if (isValid()) {//comprobamos la frase las caras etc
 			final int largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1; //Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios
-			escitala = new String[caras][largo]; //las caras representan las columnas de la escitala
+			final String[][] escitala = new String[caras][largo]; //las caras representan las columnas de la escitala
 			//el largo representa las filas
 
 			int pivote = 0; //nos servirá de pivote para señalar el caracter actual en la frase
@@ -49,7 +49,7 @@ public class Escitala {
 					}
 				}
 			}
-			return toText( caras, largo ); //llamamos con la cantidad de filas
+			return Escitala.toText( escitala ); //llamamos con la cantidad de filas
 		}
 		return null;
 	}
@@ -64,7 +64,7 @@ public class Escitala {
 	public String decrypt( final String frase2 ) {
 		if (isValid()) { //comprobamos la frase las caras etc
 			final int largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1; //Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios
-			escitala = new String[largo][caras];
+			final String[][] escitala = new String[largo][caras];
 
 			int pivote = 0; //Nos servirá de pivote para la frase
 
@@ -74,11 +74,20 @@ public class Escitala {
 					pivote++; //avanzamos el pivote una posición para que apunte al siguiente caracter del String a convertir.
 				}
 			}
-			return toText( largo, caras ); //llamamos con la cantidad de filas, columnas. OJO hay que pasar como parámetro la variable que indique el máximo de filas y luego la
+			return Escitala.toText( escitala ); //llamamos con la cantidad de filas, columnas. OJO hay que pasar como parámetro la variable que indique el máximo de filas y luego la
 		} //que indique el máximo de columnas.
 		return null;
 	}
 
+	/**
+	 * Genera un carácter aleatorio.
+	 * <p>
+	 * Función de utilidad que genera un único carácter aleatorio. Utilizado internamente para
+	 * rellenar la tabla cuando cuando la longitud de la frase a encriptar no es un múltiplo del
+	 * número de caras.
+	 * 
+	 * @return un carácter aleatorio.
+	 */
 	private static String aleatorio() {
 		final int aleatorio = (int) (Math.random() * 100) + 1; //calculamos un aleatorio de 1 a 100. Podríamos haber pusto otro rango.
 
@@ -86,21 +95,18 @@ public class Escitala {
 	}
 
 	/**
-	 * Retorna el array utilizado internamente convertido en una cadena de texto.
+	 * Convierte el array bidimensional pasado como parámetro en un <code>String</code>.
 	 * 
-	 * @param f
-	 *        número de filas del array interno.
-	 * @param c
-	 *        número de columnas del array interno.
-	 * @return una cadena de texto representando el array interno.
+	 * @param array
+	 *        bidimensional a convertir en una cadena.
+	 * @return una cadena de texto representando el array pasado como argumento.
 	 */
-	private String toText(	final int f,
-							final int c ) {
+	private static String toText( final String[][] array ) {
 		final StringBuilder sb = new StringBuilder(); //Ya que no trabajamos con hilos creamos un StringBuilder que es más eficiente en estos casos
 
-		for (int filas = 0; filas < f; filas++) { //Recorremos el array
-			for (int columnas = 0; columnas < c; columnas++) {
-				sb.append( escitala[filas][columnas] ); //y vamos agregando al StringBuilder caracter a carater
+		for (final String[] strings : array) {
+			for (final String string : strings) {
+				sb.append( string );
 			}
 		}
 		return sb.toString(); //Devolvemos como String el contenido del StringBuilder

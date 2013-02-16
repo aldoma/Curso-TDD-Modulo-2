@@ -1,5 +1,7 @@
 package org.aldoma.cursotdd.modulo2.ejercicio1;
 
+import java.util.Random;
+
 /**
  * Clase que representa una escítala para el cifrado y descifrado de mensajes de texto.
  * 
@@ -109,9 +111,17 @@ public class Escitala {
 	 * @return un carácter aleatorio.
 	 */
 	private static char aleatorio() {
-		final int aleatorio = (int) (Math.random() * 100) + 1; //calculamos un aleatorio de 1 a 100. Podríamos haber pusto otro rango.
+		final int MIN_CHAR = '0';
+		final int MAX_CHAR = 'z';
+		char ch;
+		final Random random = new Random();
 
-		return (char) aleatorio; //Devolvemos como String el char que representa a ese número generado aleatorimente. (Código ASCII)
+		do {
+			ch = (char) (random.nextInt( MAX_CHAR - MIN_CHAR + 1 ) + MIN_CHAR);
+		}
+		while (!Character.isLetterOrDigit( ch ));
+
+		return ch;
 	}
 
 	/**

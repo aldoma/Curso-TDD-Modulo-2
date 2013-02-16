@@ -21,21 +21,21 @@ public class EscitalaTest {
 	/** Cadena de ejemplo en texto claro */
 	private static final String TEXTO_CLARO = "En un lugar de la Mancha, de cuyo nombre no quiero acordarme";
 
-	/** La cadena de ejemplo encriptada con una escitala de 10 caras. */
+	/** La cadena de ejemplo cifrada con una escítala de 10 caras. */
 	private static final String ENCRYPT_CON_10 = "EldM,umorrnuea yb od g ndorq aualce euarnrah n icm   aconeoe";
 
-	/** La cadena de ejemplo encriptada con una escitala de 7 caras. */
+	/** La cadena de ejemplo cifrada con una escítala de 7 caras. */
 	private static final String ENCRYPT_CON_7 = "EaMemurnra bid  ncreaudcuerrnehy om  aon ell, oa ua n c g doqo ";
 
-	/** Una escitala de 10 caras. */
+	/** Una escítala de 10 caras. */
 	private Escitala theSUP10;
 
-	/** Una escitala de 7 caras. */
+	/** Una escítala de 7 caras. */
 	private Escitala theSUP7;
 
 	/**
-	 * <em>Placeholder</em> para protegernos de nuestros propios errores y verificar que los datos
-	 * de prueba tiene las características esperadas.
+	 * Validaciones para protegernos de nuestros propios errores y verificar que los datos de prueba
+	 * tienen las características esperadas.
 	 */
 	@BeforeClass
 	public static void oneTimeSetUp() {
@@ -88,7 +88,7 @@ public class EscitalaTest {
 		final int numCaras = 0;
 		try {
 			new Escitala( numCaras );
-			Assert.fail( "¿Cúal es la construcción geométrica para una escitala de 0 caras?" );
+			Assert.fail( "¿Cuál es la construcción geométrica para una escítala de 0 caras?" );
 		}
 		catch (final IllegalArgumentException ex) {
 			// Ok, este es el comportamiento esperado
@@ -105,7 +105,7 @@ public class EscitalaTest {
 		final int numCaras = -5;
 		try {
 			new Escitala( numCaras );
-			Assert.fail( "Esta es una geometría muy avanzada para una Escitala" );
+			Assert.fail( "Esta es una geometría muy avanzada para una Escítala." );
 		}
 		catch (final IllegalArgumentException ex) {
 			// Ok, este es el comportamiento esperado
@@ -124,7 +124,7 @@ public class EscitalaTest {
 	/**
 	 * Test method for
 	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt(java.lang.String)} con una
-	 * frase con menos carácteres que caras.
+	 * frase con menos caracteres que caras.
 	 */
 	@SuppressWarnings( "static-method" )
 	@Test
@@ -161,7 +161,7 @@ public class EscitalaTest {
 	/**
 	 * Test method for
 	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt(java.lang.String)} de un texto
-	 * cuya longuitud no es múltiplo del número de caras.
+	 * cuya longitud no es múltiplo del número de caras.
 	 */
 	@Test
 	public final void testDecrypt_NoMultiplo() {

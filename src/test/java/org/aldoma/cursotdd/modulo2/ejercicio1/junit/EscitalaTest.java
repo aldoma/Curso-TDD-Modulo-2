@@ -16,26 +16,31 @@ import org.junit.Test;
  * 
  * @author Alberto Dominguez Matamoros
  */
-@SuppressWarnings( { "nls", "static-method" } )
+@SuppressWarnings( { "nls" } )
 public class EscitalaTest {
 	/** Cadena de ejemplo en texto claro */
 	private static final String TEXTO_CLARO = "En un lugar de la Mancha, de cuyo nombre no quiero acordarme";
 
-	/** La anterior cadena encriptada con una escitala de 10 caras */
-	private static final String ENCRYPT_CON_10 = "Ernu  n cyna dhoocuea  on ,nqr l oudladmiau ebergM rrmaaceoe";
+	/** La cadena de ejemplo encriptada con una escitala de 10 caras. */
+	private static final String ENCRYPT_CON_10 = "EldM,umorrnuea yb od g ndorq aualce euarnrah n icm   aconeoe";
 
-	/** Una escitala de 10 caras... */
+	/** La cadena de ejemplo encriptada con una escitala de 7 caras. */
+	private static final String ENCRYPT_CON_7 = "EaMemurnra bid  ncreaudcuerrnehy om  aon ell, oa ua n c g doqo ";
+
+	/** Una escitala de 10 caras. */
 	private Escitala theSUP10;
 
-	/** ...y su inversa (inicializada con la cadena encriptada. */
-	private Escitala theSUP10Inv;
+	/** Una escitala de 7 caras. */
+	private Escitala theSUP7;
 
 	/**
-	 * <em>Placeholder</em> para protegernos de nuestros propios errores.
+	 * <em>Placeholder</em> para protegernos de nuestros propios errores y verificar que los datos
+	 * de prueba tiene las características esperadas.
 	 */
 	@BeforeClass
 	public static void oneTimeSetUp() {
 		Assert.assertEquals( EscitalaTest.TEXTO_CLARO.length(), EscitalaTest.ENCRYPT_CON_10.length() );
+		Assert.assertFalse( EscitalaTest.TEXTO_CLARO.length() == EscitalaTest.ENCRYPT_CON_7.length() );
 	}
 
 	/**
@@ -43,8 +48,13 @@ public class EscitalaTest {
 	 */
 	@Before
 	public void setUp() {
-		theSUP10 = new Escitala( 10, EscitalaTest.TEXTO_CLARO );
-		theSUP10Inv = new Escitala( 10, EscitalaTest.ENCRYPT_CON_10 );
+		theSUP10 = new Escitala( 10 );
+		theSUP7 = new Escitala( 7 );
+
+		// Tambien realizamos la verificación de los datos de prueba que no podiamos realizar
+		// antes de la inicialización de los objetos.
+		Assert.assertEquals( 0, EscitalaTest.TEXTO_CLARO.length() % theSUP10.getCaras() );
+		Assert.assertTrue( EscitalaTest.TEXTO_CLARO.length() % theSUP7.getCaras() != 0 );
 	}
 
 	/**
@@ -53,32 +63,31 @@ public class EscitalaTest {
 	@After
 	public void tearDown() {
 		theSUP10 = null;
-		theSUP10Inv = null;
+		theSUP7 = null;
 	}
 
 	/**
-	 * Test method for
-	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int, java.lang.String)}.
+	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int)}.
 	 */
+	@SuppressWarnings( "static-method" )
 	@Test
 	public final void testEscitala() {
 		final int numCaras = 3;
-		final Escitala theSUP = new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
+		final Escitala theSUP = new Escitala( numCaras );
 
 		Assert.assertEquals( numCaras, theSUP.getCaras() );
-		Assert.assertEquals( EscitalaTest.TEXTO_CLARO, theSUP.getFrase() );
 	}
 
 	/**
-	 * Test method for
-	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int, java.lang.String)} con
-	 * el número de caras igual a 0.
+	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int)} con el
+	 * número de caras igual a 0.
 	 */
+	@SuppressWarnings( { "unused", "static-method" } )
 	@Test
 	public final void testEscitala_ConZeroCaras() {
 		final int numCaras = 0;
 		try {
-			new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
+			new Escitala( numCaras );
 			Assert.fail( "¿Cúal es la construcción geométrica para una escitala de 0 caras?" );
 		}
 		catch (final IllegalArgumentException ex) {
@@ -87,15 +96,15 @@ public class EscitalaTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int, java.lang.String)} con
-	 * el número de caras negativo.
+	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#Escitala(int)} con el
+	 * número de caras negativo.
 	 */
+	@SuppressWarnings( { "unused", "static-method" } )
 	@Test
 	public final void testEscitala_ConNumCarasNegativo() {
 		final int numCaras = -5;
 		try {
-			new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
+			new Escitala( numCaras );
 			Assert.fail( "Esta es una geometría muy avanzada para una Escitala" );
 		}
 		catch (final IllegalArgumentException ex) {
@@ -104,48 +113,40 @@ public class EscitalaTest {
 	}
 
 	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt()}.
+	 * Test method for
+	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt(java.lang.String)}.
 	 */
 	@Test
 	public final void testEncrypt() {
-		Assert.assertEquals( EscitalaTest.ENCRYPT_CON_10, theSUP10.encrypt() );
+		Assert.assertEquals( EscitalaTest.ENCRYPT_CON_10, theSUP10.encrypt( EscitalaTest.TEXTO_CLARO ) );
 	}
 
 	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt()} sobre un
-	 * objeto sin inicializar.
-	 */
-	@Test
-	public final void testEncrypt_ConNUll() {
-		final Escitala theSUP = new Escitala( 2, null );
-		Assert.assertNull( theSUP.encrypt() );
-	}
-
-	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt()} con una
+	 * Test method for
+	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt(java.lang.String)} con una
 	 * frase con menos carácteres que caras.
 	 */
+	@SuppressWarnings( "static-method" )
 	@Test
 	public final void testEncrypt_ConFraseMuyCorta() {
-		final Escitala theSUP = new Escitala( 20, "Muy corta" );
+		final Escitala theSUP = new Escitala( 20 );
 
-		Assert.assertNull( theSUP.encrypt() );
+		Assert.assertNull( theSUP.encrypt( "Muy corta" ) );
 	}
 
 	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt()} para una
+	 * Test method for
+	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#encrypt(java.lang.String)} para una
 	 * frase cuya longitud no sea múltiplo del número de caras. Es decir, <blockquote>
 	 * <code>len(frase)%caras <> 0</code></blockquote>
 	 */
 	@Test
 	public final void testEncrypt_NoMultiplo() {
-		final int numCaras = 7;
-		final Escitala theSUP = new Escitala( numCaras, EscitalaTest.TEXTO_CLARO );
-		Assert.assertFalse( EscitalaTest.ENCRYPT_CON_10.length() % numCaras == 0 );
-		final String str = theSUP.encrypt();
-
+		// Tal y como especifica la documentación de encrypt() esta es no determinista, por lo que sólo
+		// podemos probarla con ayuda de su complementaria.
+		final String encrypt = theSUP7.encrypt( EscitalaTest.TEXTO_CLARO );
 		Assert.assertEquals( EscitalaTest.TEXTO_CLARO,
-				theSUP.decrypt( str ).substring( 0, EscitalaTest.TEXTO_CLARO.length() ) );
+				theSUP7.decrypt( encrypt ).substring( 0, EscitalaTest.TEXTO_CLARO.length() ) );
 	}
 
 	/**
@@ -154,17 +155,18 @@ public class EscitalaTest {
 	 */
 	@Test
 	public final void testDecrypt() {
-		Assert.assertEquals( EscitalaTest.TEXTO_CLARO, theSUP10Inv.decrypt( EscitalaTest.ENCRYPT_CON_10 ) );
+		Assert.assertEquals( EscitalaTest.TEXTO_CLARO, theSUP10.decrypt( EscitalaTest.ENCRYPT_CON_10 ) );
 	}
 
 	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt(String)} sobre
-	 * un objeto sin inicializar.
+	 * Test method for
+	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#decrypt(java.lang.String)} de un texto
+	 * cuya longuitud no es múltiplo del número de caras.
 	 */
 	@Test
-	public final void testDecrypt_ConNUll() {
-		final Escitala theSUP = new Escitala( 2, null );
-		Assert.assertNull( theSUP.decrypt( EscitalaTest.ENCRYPT_CON_10 ) );
+	public final void testDecrypt_NoMultiplo() {
+		Assert.assertEquals( EscitalaTest.TEXTO_CLARO,
+				theSUP7.decrypt( EscitalaTest.ENCRYPT_CON_7 ).substring( 0, EscitalaTest.TEXTO_CLARO.length() ) );
 	}
 
 	/**
@@ -174,25 +176,4 @@ public class EscitalaTest {
 	public final void testGetCaras() {
 		Assert.assertEquals( 10, theSUP10.getCaras() );
 	}
-
-	/**
-	 * Test method for {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#getFrase()}.
-	 */
-	@Test
-	public final void testGetFrase() {
-		Assert.assertEquals( EscitalaTest.TEXTO_CLARO, theSUP10.getFrase() );
-	}
-
-	/**
-	 * Test method for
-	 * {@link org.aldoma.cursotdd.modulo2.ejercicio1.Escitala#setFrase(java.lang.String)}.
-	 */
-	@Test
-	public final void testSetFrase() {
-		final String frase = "Texto de prueba";
-		theSUP10.setFrase( frase );
-
-		Assert.assertEquals( frase, theSUP10.getFrase() );
-	}
-
 }

@@ -8,79 +8,83 @@ package org.aldoma.cursotdd.modulo2.ejercicio1;
 public class Escitala {
 	/** Número de caras de la escitala. */
 	private final int caras;
-	private String frase;
 
 	/**
-	 * Constructor con inicialización explícita del número de caras de la Escitala y la frase a
-	 * encriptar.
+	 * Constructor con inicialización explícita del número de caras de la Escitala.
 	 * 
 	 * @param numCaras
 	 *        número de caras de la escitala
-	 * @param theFrase
-	 *        frase a codificar
+	 * @throws IllegalArgumentException
+	 *         si el número de caras no es un entero positivo mayor que 1
 	 */
-	public Escitala(	final int numCaras,
-						final String theFrase ) {
+	public Escitala( final int numCaras )
+			throws IllegalArgumentException {
 		if (1 >= numCaras) {
 			throw new IllegalArgumentException(
 					"El número de caras de una escitala ha de ser un entero positivo mayor que 1." ); //$NON-NLS-1$
 		}
 		caras = numCaras;
-		frase = theFrase;
 	}
 
 	/**
 	 * Encripta una cadena de texto.
+	 * <p>
+	 * <strong>¡Atención!</strong> Esta función es no determinista.
+	 * <p>
+	 * Ademas, es importante tener en cuenta que la longuitud de la cadena de texto retornada es
+	 * igual al primer múltiplo del número de caras de la escitala igual o superior a la longuitud
+	 * de la frase a encriptar.
 	 * 
+	 * @param frase
+	 *        frase a encriptar
 	 * @return La cadena de texto encriptada.
+	 * @see <a href="http://es.wikipedia.org/wiki/Algoritmo_no_determinista">Algoritmo no
+	 *      determinista</a>
 	 */
-	public String encrypt() {
-		if (isValid()) {//comprobamos la frase las caras etc
-			final int largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1; //Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios
-			final char[][] escitala = new char[caras][largo]; //las caras representan las columnas de la escitala
-			//el largo representa las filas
+	public String encrypt( final String frase ) {
+		String result = null;
+		if (isValid( frase )) {
+			//Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios
+			final int largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1;
+			final char[][] escitala = new char[caras][largo];
 
-			int pivote = 0; //nos servirá de pivote para señalar el caracter actual en la frase
+			int currentPos = 0;
 
-			for (int columna = 0; columna < largo; columna++) { //recorremos todas las filas DE CADA COLUMNA
-				for (int fila = 0; fila < caras; fila++) { //recorremos todas las columnas
-					if (pivote < frase.length()) { //Si no hemos recorrido toda la frase
-						escitala[fila][columna] = frase.charAt( pivote ); //Almacenamos el caracter que toque dentro del Array
-						pivote++; //sumamos uno al pivote para apuntar al siguiente caracter de la cadena de texto a encrypt
-					}
-					else {
-						escitala[fila][columna] = Escitala.aleatorio(); //como ya no quedan letras de la frase generamos un caracter aleatorio para cumplimentar los elementos del array
-					}
+			for (int fila = 0; fila < caras; fila++) {
+				for (int columna = 0; columna < largo; columna++) {
+					escitala[fila][columna] = currentPos < frase.length() ? frase.charAt( currentPos++ ) : Escitala
+							.aleatorio();
 				}
 			}
-			return Escitala.toText( escitala ); //llamamos con la cantidad de filas
+			result = Escitala.toText( escitala );
 		}
-		return null;
+		return result;
 	}
 
 	/**
 	 * Desencripta una cadena de texto previamente encriptada por una escitala compatible.
 	 * 
-	 * @param frase2
+	 * @param frase
 	 *        frase a desencriptar.
 	 * @return la frase desencriptada.
 	 */
-	public String decrypt( final String frase2 ) {
-		if (isValid()) { //comprobamos la frase las caras etc
-			final int largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1; //Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios
+	public String decrypt( final String frase ) {
+		String result = null;
+		if (isValid( frase )) {
+			//Si el mensaje dividido entre las caras de la escitala da resto cero no sobrarían espacios
+			final int largo = frase.length() % caras == 0 ? frase.length() / caras : frase.length() / caras + 1;
 			final char[][] escitala = new char[largo][caras];
 
-			int pivote = 0; //Nos servirá de pivote para la frase
+			int currentPos = 0;
 
-			for (int columnas = 0; columnas < caras; columnas++) { //OJO esta vez la cantidad de columnas lo determinarán las caras
-				for (int filas = 0; filas < largo; filas++) { //OJO esta vez las la cantidad de filas vendrá determinada por el largo.
-					escitala[filas][columnas] = frase2.charAt( pivote ); //vamos escribiendo caracter a caracter en el array bidimensional
-					pivote++; //avanzamos el pivote una posición para que apunte al siguiente caracter del String a convertir.
+			for (int fila = 0; fila < largo; fila++) {
+				for (int columna = 0; columna < caras; columna++) {
+					escitala[fila][columna] = currentPos < frase.length() ? frase.charAt( currentPos++ ) : ' ';
 				}
 			}
-			return Escitala.toText( escitala ); //llamamos con la cantidad de filas, columnas. OJO hay que pasar como parámetro la variable que indique el máximo de filas y luego la
-		} //que indique el máximo de columnas.
-		return null;
+			result = Escitala.toText( escitala );
+		}
+		return result;
 	}
 
 	/**
@@ -106,36 +110,30 @@ public class Escitala {
 	 * @return una cadena de texto representando el array pasado como argumento.
 	 */
 	private static String toText( final char[][] escitala ) {
-		final StringBuilder sb = new StringBuilder(); //Ya que no trabajamos con hilos creamos un StringBuilder que es más eficiente en estos casos
+		//Ya que no trabajamos con hilos creamos un StringBuilder que es más eficiente en estos casos
+		final StringBuilder sb = new StringBuilder( escitala.length * escitala[0].length );
 
-		for (final char[] strings : escitala) {
-			sb.append( strings );
+		for (int c = 0; c < escitala[0].length; c++) {
+			for (final char[] element : escitala) {
+				sb.append( element[c] );
+			}
 		}
-		return sb.toString(); //Devolvemos como String el contenido del StringBuilder
+		return sb.toString();
 	}
 
 	/**
-	 * Valida si la clase se encuentra en un estado correcto para encriptar y desencriptar.
+	 * Valida si la frase pasada como argumento es <em>compatible</em> con esta escitala.
 	 * 
-	 * @return <code>true</code> si el estado del objeto permite las tareas de encriptación y
-	 *         desencriptación, <code>false</code> en caso contrario.
+	 * @param frase
+	 *        frase a validar para esta escitala.
+	 * @return <code>true</code> si la <code>frase</code> es <em>compatible</em> cona la escitala,
+	 *         <code>false</code> en caso contrario.
 	 */
-	@SuppressWarnings( "nls" )
-	private boolean isValid() {
-		boolean correcto = false;
+	private boolean isValid( final String frase ) {
 
-		if (caras > 0 && frase != null && frase.length() > caras) {
-			correcto = true;
-		}
-		else {
-			System.out
-					.println( "Las cara deben ser un número entero positivo comprendido y la frase no puede ser nula. \n"
-							+ ".Además la cantidad de letras de la frase no puede ser menor al número de caras" );
-		}
-		return correcto;
+		return frase != null && frase.length() > caras;
 	}
 
-	//MÉTODOS GETTERS AND SETTERS TÍPICOS.
 	/**
 	 * Retorna el número de caras de la escitala.
 	 * 
@@ -143,24 +141,5 @@ public class Escitala {
 	 */
 	public int getCaras() {
 		return caras;
-	}
-
-	/**
-	 * Retorna la frase actual de la escitala.
-	 * 
-	 * @return la frase actual de la escitala.
-	 */
-	public String getFrase() {
-		return frase;
-	}
-
-	/**
-	 * Establece la frase a codificar por la escitala
-	 * 
-	 * @param theFrase
-	 *        frase a codificar
-	 */
-	public void setFrase( final String theFrase ) {
-		frase = theFrase;
 	}
 }
